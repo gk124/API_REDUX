@@ -1,23 +1,22 @@
-import logo from './logo.svg';
 import './App.css';
+import {useDispatch, useSelector} from "react-redux"
+import { fetchUsers } from './redux/slice/users';
+import Data from './components/Data';
 
 function App() {
+  const dispatch=useDispatch();
+
+  const state=useSelector((state)=> state);
+  console.log("State",state);
+
+  if(state.users.isLoading){
+    return <h1>Loading......</h1>
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App container pt-5">
+      <button className='btn btn-success' onClick={(e)=> dispatch(fetchUsers())}>Fetch Users</button>
+      <Data data={state.users.data}/>
     </div>
   );
 }
